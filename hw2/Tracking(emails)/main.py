@@ -290,7 +290,7 @@ if __name__ == "__main__":
             #print()
             output.append(priority_stack.getMax(root))
     for i in output:
-        print(i)
+        print(int(i))
         
     
     
