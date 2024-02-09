@@ -262,7 +262,7 @@ if __name__ == "__main__":
     recency_stack = []
     priority_stack = AVL_Tree()
     root = None
-    
+    output = []
     for i in range(num_actions):
         action = input().split()
         # insert new email case
@@ -284,7 +284,15 @@ if __name__ == "__main__":
         # print max email case
         elif int(action[0]) == 3:
             #print(priority_stack.getMax(priority_stack.root))
-            print(priority_stack.getMax(root))
+            # print on new line
+            #print(int(priority_stack.getMax(root)))
+            #print(end)
+            #print()
+            output.append(priority_stack.getMax(root))
+    for i in output:
+        print(i)
+        
+    
     
     
     
