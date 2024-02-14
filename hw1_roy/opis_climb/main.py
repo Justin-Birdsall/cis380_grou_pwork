@@ -5,7 +5,7 @@
 from math import floor
 if __name__ == "__main__":
     num_tests = int(input())
-    
+ 
 
     for test_idx in range(num_tests):
         test = input().split()
