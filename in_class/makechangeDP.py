@@ -1,38 +1,49 @@
-# tabulation, 
+import math
 
+def make_change(change_to_make, coins):
+    change_dict = {coin: 0 for coin in coins}
 
-def exact_change(x, coins):
-    if x == 0:
-        return 0
-    if all([x < coin for coin in coins]):
-        return None
-    options = []
-    for coin in coins:
-        num_coins = exact_change(x - coin, coins)
-        if num_coins is None:
-            continue
-        options.append(num_coins + 1)
-    return None if len(options) == 0 else min(options)
+    if 1 in coins:
+        pennies = True
+        coins.remove(1)
+    else:
+        pennies = False
+        
+    coins = [coin for coin in coins if coin <= change_to_make]
+    rows = len(coins) + 1
 
+    max_coin = max(coins) if coins else 1
+    cols = math.ceil(change_to_make / max_coin) + 1
 
+    dp = [[0] * cols for _ in range(rows)]
 
+    for i in range(1, rows):
+        for j in range(1, cols):
+		if j - coins[i-1] >= 0:
+		    dp[i][j] = max(dp[i-1][j], dp[i][j-coins[i-1]] + 1)
+		else:
+		    dp[i][j] = dp[i-1][j]
+    change = change_to_make
+    for i in range(rows - 1, 0, -1):
+        for j in range(cols - 1, 0, -1):
+            while dp[i][j] > 0:
+                change_dict[coins[i-1]] += 1
+                change -= coins[i-1]
+                dp[i][j] -= 1
 
-def thing(total, coins):
-    dp_table = [0][0]
-    # total % biggest coin that fits
+    if pennies:
+        pennies_needed = change
+        change_dict[1] = pennies_needed
+        change -= pennies_needed
 
-    # if total % coin == total #does not fit
-    #row is the number of coins that we are given to make change with +1
-    row = 0
-    col = 1
-    for coin in coins:
-        if total % coin == total:
-            #if we can't use that coin no point in creating a table for it
-            row -= 1
-            break
-        else:
-            #dp_table[][]
-            row =
-            col = 
-            for i in range(row):
-                dp_table[i][i]
+    if change != 0:
+        print("Change cannot be made.")
+    else:
+        print("Change made successfully.")
+    
+    print("Coins used:")
+    for coin, count in change_dict.items():
+        print(f"{coin}: {count}")
+
+# Example usage:
+make_change(15, [5, 10, 25])  # Change for 15 cents using nickels, dimes, and quarters
