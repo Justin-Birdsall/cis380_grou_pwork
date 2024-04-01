@@ -1,41 +1,31 @@
-# Authors: Richard Roy, Justin Birdsall
+from typing import List
 
-# Authors: Richard Roy, Justin Birdsall
-# Referenced: https://www.youtube.com/watch?v=jlCJqgSgXI4
+def buildWall(self, height: int, width: int, bricks: List[int]) -> int:
+        def build_layer(current_width):
+            nonlocal count
+            if current_width > width:
+                return
+            if current_width == width:
+                count += 1
+                return
+            for brick in bricks:
+                layer.append(brick)
+                build_layer(current_width + brick)
+                layer.pop()
 
-# dictionary cache for memoization
-cache = {}
-combos = []
-def possible_combinations(brick_types, target_length, i, current_combo):
-    global cache
-    global combos
-    if len(brick_types) == 0:
-        return 0
-    if i == len(brick_types): #only loop through brick_types once (find combinations of bricks without ordering, will mathematically cover all combinations later)
-        return 0
-    brick = brick_types[i]
-    if brick == target_length:
-        combos.append(current_combo.append(brick))
-        return 1
-    #if brick < target_length:
-    if target_length - brick >= 0:
-        if target_length - brick in cache:
-            include_brick = cache[target_length - brick]
-        else:
-            include_brick = possible_combinations(brick_types, target_length - brick, i, current_combo.append(brick))
-        exclude_brick = possible_combinations(brick_types, target_length, i+1, current_combo)
-        cache[target_length] = include_brick + exclude_brick
-        return cache[target_length]
-    else:
-        return 0
-
+        count = 0
+        layer = []
+        build_layer(0)
+        return count
 
 if __name__ == "__main__":
     num_tests = int(input())
-    for i in range(num_tests):
-        cache = {}
-        combos = []
-        num_brick_types, target_length = map(int, input().split())
-        brick_types = list(map(int, input().split()))
-        brick_types.sort()
-        print(possible_combinations(brick_types, target_length, 0, []))
+    bricks = []
+
+    while num_tests:
+        height, width = map(int,input().split())
+        bricks.append(width)
+        print(buildWall(height, width, bricks))  # Output: 3
+
+    height = 1
+    width = 5
