@@ -1,0 +1,81 @@
+Hi chat gpt I have a fun coding challenge for you that I want to see you complete.
+The problem is this. The user will input the number of lines he will input. 
+The user will then input two integers seperated by a space. the first one we will chall
+is time_of_arrival, and the second we shall call time_to_decrypt. 
+We will do two things with this information. First add the time of time_of_arrival
+to a min heap. second is to create a dictonary where the key is the time_of_arrival and value
+is the time_to_decrypt. 
+
+Now that we have the data sorted we can now process the main part of the problem.
+Since we now know the min number pop it and look that value up in the dictonary.
+Add that time_to_decrypt to an array called sum. We now have a to keep track of a third variable
+time_step to keep track of some computation I am about to explain. We now peek at the 
+new minimum value of the heap. Pop it and look up that value we just popped in the dictonary to see if
+is less than time_step. In the case this is true add the time_to_decrypt value to time_step.
+then take the new time_step value and subtract the value we popped from the heap. Take that new
+value we generated and add it to sum. In the case that it is false still look up the popped
+value and just add it to sum. We repeat this process of popping and checking till all messages are 
+processed and divide sum by the number of messages to get an average and print me out that average.
+
+My specifications are for this challenge is to not import any libraries besides the standard
+I will give you functions and calls for input. You must use the functions that I provided for you instead of calling heapify.
+You may change the paramaters of the functions as you see fit and the variable names inside them.
+However you may not alter their core functionality but you can add on to them if needed.
+Your main focus should be in the if name == main as a general guidance 
+
+Here is said template:
+
+def minHeapify(arr, i, n):
+    smallest = i
+    left = 2 * i + 1
+    right = 2 * i + 2
+ 
+    if left < n and arr[left] < arr[smallest]:
+        smallest = left
+ 
+    if right < n and arr[right] < arr[smallest]:
+        smallest = right
+ 
+    if smallest != i:
+        arr[i], arr[smallest] = arr[smallest], arr[i]
+        minHeapify(arr, smallest, n)
+def insert_min_heap(heap, value):
+    heap.append(value)
+    index = len(heap) - 1
+    while index > 0 and heap[(index - 1) // 2] > heap[index]:
+        heap[index], heap[(index - 1) //
+                          2] = heap[(index - 1) // 2], heap[index]
+        index = (index - 1) // 2
+ 
+def delete_min_heap(heap, value):
+    index = -1
+    for i in range(len(heap)):
+        if heap[i] == value:
+            index = i
+            break
+    if index == -1:
+        return
+    heap[index] = heap[-1]
+    heap.pop()
+    while True:
+        left_child = 2 * index + 1
+        right_child = 2 * index + 2
+        smallest = index
+        if left_child < len(heap) and heap[left_child] < heap[smallest]:
+            smallest = left_child
+        if right_child < len(heap) and heap[right_child] < heap[smallest]:
+            smallest = right_child
+        if smallest != index:
+            heap[index], heap[smallest] = heap[smallest], heap[index]
+            index = smallest
+        else:
+            break
+ 
+ 
+
+ 
+if __name__ == "__main__":
+    number_operations = int(input())
+    for i in range(number_operations):
+    timings= input().split()
+    peak_element = heapq.nsmallest(1, min_heap)[0]
