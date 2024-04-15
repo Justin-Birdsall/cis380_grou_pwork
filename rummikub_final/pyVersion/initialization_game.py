@@ -23,8 +23,9 @@ class Board:
         colors = 4 #red, orange, blue, black
         numbers = 13 #1-13
         self.seed = seed
+        self.turn = seed % 4
         self.pool = [[2 for i in range(numbers)] for j in range(colors)]      
-        self.table_tiles = [[0 for i in range(numbers)] for j in range(colors)]
+        self.table_tiles = [[0 for i in range(numbers+1)] for j in range(colors+1)]
         self.table_sets = [[0 for i in range(numbers)] for j in range(colors)]
         self.table_runs = [[0 for i in range(numbers)] for j in range(colors)]
 
@@ -32,38 +33,42 @@ class Player:
     def __init__(self, name, num):
         self.name = name 
         self.num = num
-        self.hand = [[0] * 13 for _ in range(4)]
+        self.hand = [[0] * 13+1 for _ in range(4+1)]
+        self.run_potential = [[0] * 13 for _ in range(4)]
+        self.set_potential = {i: [] for i in range(4)}
         self.played_30 = False
+        self.sum_for_30 = 0
         self.joker_in_hand = 0
 
 def init_draw(players, board):
     random.seed(board.seed)
-    num = board.seed % 4
     for i in range(56):
         while True:
             color = random.randint(0, 3)
             number = random.randint(0, 12)
             if board.pool[color][number] > 0:
                 board.pool[color][number] -= 1
-                players[num].hand[color][number] += 1
+                players[board.turn].hand[color][number] += 1
                 break
-        num += 1    
+        board.turn += 1    
 
-def check_hand_sets(self):
-    # check if player has 3 or 4 of the same number (different colors)
-    for i in range(13):
-        count = 0
-        set_buffer = []
-        for j in range(4):
-            if self.hand[j][i] > 0:
-                count += 1
-                set_buffer.append((j, i))
-        if count >= 3:
-            # add to potential sets
-            for pair in set_buffer:
-                self.potential_sets[pair[0]][pair[1]] += 1
+def check_hand_sets(players):
+    #check if player has 3 or 4 of the same number (different colors)
+    for playernum in players:
+        for i in range(13):
+            count = 0
+            sum = 0
+            for j in range(4):
+                if players[playernum].hand[j][i] > 0:
+                    count += 1
+                    sum += players[playernum].hand[j][i]
+                else:
+                    players[playernum].set_potential[j]= players[playernum][j][i]
+            if count >= 3:
+                players[playernum].sum_for_30 += players[playernum].hand[5][i]
+            else:
                 
-def check_hand_runs(self):
+def check_hand_runs(players, board):
     for i in range(4):
         count = 0
         runs = 0
@@ -95,6 +100,9 @@ player3 = Player("player3", 2)
 player4 = Player("player4", 3)
 players = [player1,player2,player3,player4]
 init_draw(players,board)
+check_hand_runs(players)
+check_hand_sets(players)
+
 
 
 

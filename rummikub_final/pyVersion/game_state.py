@@ -6,6 +6,38 @@ BLUE = 2
 BLACK = 3
 
 # transfered to init file
+
+def board_xor(board1, board2):
+    xor = [[0 for i in range(13)] for j in range(4)]
+    for i in range(4):
+        for j in range(13):
+            if board1[i][j] > 0 and board2[i][j] == 0:
+                xor[i][j] = board1[i][j]
+            elif board1[i][j] == 0 and board2[i][j] > 0:
+                xor[i][j] = board2[i][j]
+            else:
+                xor[i][j] = 0
+    return xor
+            #TODO: functionality for 2 identical sets does not exist ez, increment based on value, if >= 6, 2 sets, if >= 3, 1 set
+
+def board_and(board1, board2):
+    and_board = [[0 for i in range(13)] for j in range(4)]
+    for i in range(4):
+        for j in range(13):
+            #if board1[i][j] > 0 and board2[i][j] > 0:
+            #    and_board[i][j] = board1[i][j]
+            if board1[i][j] == 1 and board2[i][j] == 1:
+                and_board[i][j] = 1
+            elif board1[i][j] == 2 and board2[i][j] == 2:
+                and_board[i][j] = 2
+            elif board1[i][j] == 1 and board2[i][j] == 2:
+                and_board[i][j] = 1
+            elif board1[i][j] == 2 and board2[i][j] == 1:
+                and_board[i][j] = 1
+            else: 
+                and_board[i][j] = 0
+    return and_board
+
 class Player:
     def __init__(self, num):
         colors = 4 #red, orange, blue, black
@@ -13,7 +45,9 @@ class Player:
         self.num = num
         self.hand = [[0 for i in range(numbers)] for j in range(colors)]
         self.potential_sets = [[0 for i in range(numbers)] for j in range(colors)]
+        self.potential_sets_conflicts = [[0 for _ in range(numbers)] for _ in range(colors)]
         self.potential_runs = [[0 for i in range(numbers)] for j in range(colors)]
+        self.potential_runs_conflicts = [[0 for _ in range(numbers)] for _ in range(colors)]
     
     def draw(self, board):
         # draw random tile from pool
@@ -28,18 +62,27 @@ class Player:
     def check_hand_sets(self):
         # check if player has 3 or 4 of the same number (different colors)
         for i in range(13):
-            count = 0
-            set_buffer = []
+            count1 = 0
+            count2 = 0 
+            set_buffer1 = []
+            set_buffer2 = []
             for j in range(4):
                 if self.hand[j][i] > 0:
-                    count += 1
-                    set_buffer.append((j, i))
-            if count >= 3:
+                    count1 += 1
+                    set_buffer1.append((j, i))
+                    if self.hand[j][i] == 2:
+                        count2 += 1
+                        set_buffer2.append((j, i))
+            if count1 >= 3:
                 # testing print
                 print("Player ", self.num, " has a set of number ", i+1)
                 # add to potential sets
-                for pair in set_buffer:
+                for pair in set_buffer1:
                     self.potential_sets[pair[0]][pair[1]] += 1
+                if count2 >= 3 or count1 >= 4 and count2 >= 2:
+                    print("Player ", self.num, " has a set of number ", i+1, " with 2 colors")
+                    for pair in set_buffer2:
+                        self.potential_sets[pair[0]][pair[1]] += 1
     
     def check_hand_runs(self):
         for i in range(4):
@@ -66,6 +109,48 @@ class Player:
                 print("Player ", self.num, " has ", runs, " run(s) of color ", i)
                 for pair in run_buffer:
                     self.potential_runs[pair[0]][pair[1]] += 1
+                    
+    def no_conflicts(self):
+        # if potential sets xor potential runs is empty, return True
+        xor = board_xor(self.potential_sets, self.potential_runs)
+        for i in range(4):
+            for j in range(13):
+                if xor[i][j] > 0:
+                    return False
+        return True
+    
+    def play_all_potentials(self, board):
+        # play all of potential set and potential runs
+        and_potentials = board_and(self.potential_sets, self.potential_runs)
+        for i in range(4):
+            for j in range(13):
+                if and_potentials[i][j] > 0:
+                    board.table[i][j] += and_potentials[i][j]
+                    self.potential_sets[i][j] = 0
+                    self.potential_runs[i][j] = 0
+                    self.hand[i][j] -= and_potentials[i][j]
+    
+    def play_all_sets(self, board):
+        for i in range(4):
+            for j in range(13):
+                if self.potential_sets[i][j] > 0:
+                    board.table[i][j] += self.potential_sets[i][j]
+                    self.potential_sets[i][j] = 0
+                    self.hand[i][j] -= self.potential_sets[i][j]
+                    self.check_hand_runs()
+    
+    def play_all_runs(self, board):
+        for i in range(4):
+            for j in range(13):
+                if self.potential_runs[i][j] > 0:
+                    board.table[i][j] += self.potential_runs[i][j]
+                    self.potential_runs[i][j] = 0
+                    self.hand[i][j] -= self.potential_runs[i][j]
+                    self.check_hand_sets()
+    
+    
+    
+    
     
     def play_sets(self, board):
         pass
@@ -140,7 +225,7 @@ if __name__ == "__main__":
         player_2.draw(game)
         player_3.draw(game)
         player_4.draw(game)
-    
+
     # value checks
     print("Player 1 Hand")
     for i in range(4):
@@ -154,6 +239,7 @@ if __name__ == "__main__":
     for i in range(4):
         print(player_1.potential_runs[i])
         
+    """
     print()
     print("Player 2 Hand")
     for i in range(4):
@@ -192,3 +278,25 @@ if __name__ == "__main__":
     print("Player 4 Potential Runs")
     for i in range(4):
         print(player_4.potential_runs[i])
+    print()
+    """
+    
+    print("Player 1 potential sets xor potential runs")
+    ex1 = board_xor(player_1.potential_sets, player_1.potential_runs)
+    #print(player_1.board_xor(player_1.potential_sets, player_1.potential_runs))
+    for i in range(4):
+        print(ex1[i])
+        
+    
+    print("Player 1 potential sets and potential runs")
+    ex2 = board_and(player_1.potential_sets, player_1.potential_runs)
+    #print(player_1.board_and(player_1.potential_sets, player_1.potential_runs))
+    for i in range(4):
+        print(ex2[i])
+    """
+    print("Player 1 (potential sets xor potential runs) xor (potential sets and potential runs)")
+    ex3 = player_1.board_xor(player_1.board_xor(player_1.potential_sets, player_1.potential_runs), player_1.board_and(player_1.potential_sets, player_1.potential_runs))
+    #print(player_1.board_xor(player_1.board_xor(player_1.potential_sets, player_1.potential_runs), player_1.board_and(player_1.potential_sets, player_1.potential_runs)))
+    for i in range(4):
+        print(ex3[i])
+    """
