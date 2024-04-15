@@ -10,10 +10,10 @@ from game_actions import *
 from game_rules import *
 def game_turn(gamewonflag):
     
-    #think about what a game turn is.
-    #if player has not played 30 see if they can make inital meld
+    
     if(initial_30_flag(players) == False):
         draw_tile()
+        board.turn += 1 
     elif(initial_30_flag(players)== True):
         #on that players turn check if they can make a play do it. Otherwise draw 
             if():
