@@ -20,7 +20,6 @@ def insert_min_heap(heap, value):
                           2] = heap[(index - 1) // 2], heap[index]
         index = (index - 1) // 2
  
- 
 def delete_min_heap(heap, value):
     index = -1
     for i in range(len(heap)):
@@ -49,18 +48,7 @@ def delete_min_heap(heap, value):
 
  
 if __name__ == "__main__":
-    arr = [10, 5, 15, 2, 20, 30]
- 
-    print("Original array:", arr)
- 
-    # Perform heapify operation on a min-heap
-    for i in range(len(arr) // 2 - 1, -1, -1):
-        minHeapify(arr, i, len(arr))
- 
-    print("Min-Heap after heapify operation:", arr)
-    heap = []
-    values = [13, 16, 31, 41, 51, 100]
-    for value in values:
-        insert_min_heap(heap, value)
-    print("Initial heap:", heap) 
-    delete_min_heap(heap, 13)
+    number_operations = int(input())
+    for i in range(number_operations):
+    timings= input().split()
+    peak_element = heapq.nsmallest(1, min_heap)[0]

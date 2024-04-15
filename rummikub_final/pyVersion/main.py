@@ -1,5 +1,15 @@
-import game_state
-import initialization_game
+"""
+This is the main game file that calls the other files. The logic is behind the game is to initialize all the 4 players of the game and while the game is not won -> continue to run turns until 1 player has 0 remaining tiles in hand or rack.
+"""
 
-def main():
+import initialization_game
+import game_turn
+import tally_score
+import random
+
+isgamewon = False
+initialization_game()
+while isgamewon != True:
+    game_turn()
+tally_score()
 
