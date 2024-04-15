@@ -263,6 +263,7 @@ if __name__ == "__main__":
     else:
         #CASE 2: conflicts (cut off part of one set or run)
         #CASE 3: conflicts (recursion to see which plays more tiles)
+        pass
         
     """
     print()

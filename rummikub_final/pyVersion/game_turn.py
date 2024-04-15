@@ -9,8 +9,6 @@ from initialization_game import players, board
 from game_actions import *
 from game_rules import *
 def game_turn(gamewonflag):
-    
-    
     if(initial_30_flag(players) == False):
         draw_tile()
         board.turn += 1 
