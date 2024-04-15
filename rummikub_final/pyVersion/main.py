@@ -5,11 +5,10 @@ This is the main game file that calls the other files. The logic is behind the g
 import initialization_game
 import game_turn
 import tally_score
-import random
 
 isgamewon = False
 initialization_game()
 while isgamewon != True:
-    game_turn()
+    game_turn(isgamewon)
 tally_score()
 

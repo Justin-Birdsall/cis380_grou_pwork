@@ -19,10 +19,10 @@ class Joker:
         self.joker1_on_board = False    
 
 class Board:
-    def __init__(self):
+    def __init__(self, seed):
         colors = 4 #red, orange, blue, black
         numbers = 13 #1-13
-        self.seed = random.randint(0, 999999)
+        self.seed = seed
         self.pool = [[2 for i in range(numbers)] for j in range(colors)]      
         self.table_tiles = [[0 for i in range(numbers)] for j in range(colors)]
         self.table_sets = [[0 for i in range(numbers)] for j in range(colors)]
@@ -36,16 +36,16 @@ class Player:
         self.played_30 = False
         self.joker_in_hand = 0
 
-def init_draw(player, board):
-    #take the random seed and % 3 to see who gets to draw first
-    num = board.seed % 3
+def init_draw(players, board):
+    random.seed(board.seed)
+    num = board.seed % 4
     for i in range(56):
         while True:
             color = random.randint(0, 3)
             number = random.randint(0, 12)
             if board.pool[color][number] > 0:
                 board.pool[color][number] -= 1
-                player.hand[color][number] += 1
+                players[num].hand[color][number] += 1
                 break
         num += 1    
 
@@ -86,13 +86,15 @@ def check_hand_runs(self):
         if runs > 0:
             for pair in run_buffer:
                 self.potential_runs[pair[0]][pair[1]] += 1
-
+                
+                
+board = Board(random.randint(0,99999))
 player1 = Player("player1", 0)    
 player2 = Player("player2", 1)     
 player3 = Player("player3", 2)    
 player4 = Player("player4", 3)
-
-print(player1.hand)  
+players = [player1,player2,player3,player4]
+init_draw(players,board)
 
 
 

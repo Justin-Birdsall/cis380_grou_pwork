@@ -5,11 +5,28 @@
 
     Note: 
 """
-import initialization_game
-import game_rules
-from initialization_game import player1, player2, player3, player4
-class potential_play:
-    def __init__(self):
-        pass 
-if __name__ == "__main__":
-    print()
+from initialization_game import players, board
+from game_actions import *
+from game_rules import *
+def game_turn(gamewonflag):
+    
+    #think about what a game turn is.
+    #if player has not played 30 see if they can make inital meld
+    if(initial_30_flag(players) == False):
+        draw_tile()
+    elif(initial_30_flag(players)== True):
+        #on that players turn check if they can make a play do it. Otherwise draw 
+            if():
+                pass
+            else:
+                draw_tile
+    """ 
+    If a player puts tile on the board  
+    """
+    if():
+        pass
+    #check if that player 
+    return gamewonflag
+
+
+
