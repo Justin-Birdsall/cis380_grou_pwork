@@ -5,6 +5,7 @@ We are only implementing a 4 player version of the game as it was
 the easiest for us to understand from a mathematical and algorithm design perspective. In theory it shouldn't be too hard to make it 2 or 3 or 4 person
 """
 import random
+import game_rules
 
 RED = 0
 ORANGE = 1
@@ -112,7 +113,10 @@ def check_hand_runs(players):
                         #for k in range(count, 0, -1):
                             #tile_nums.append((i, j-k))
                             #players[playernum].playable_run[i]=tile_nums
-                        players[playernum].playable_run[i].append(tile_nums)
+                            
+                        #players[playernum].playable_run[i].append(tile_nums)
+                        players[playernum].playable_run[i].extend(tile_nums)
+                        
                         #players[playernum].playable_run[i][tile_nums[0]] = 1
                         tile_nums = []
                         count = 0
@@ -214,4 +218,8 @@ if __name__ == "__main__":
     for i in range(4):
         print(player4.set_potential[i])
         
-    
+    print()
+    print()
+    print("init 30 flag")
+    playerlist = [player1,player2,player3,player4]
+    game_rules.initial_30_flag(playerlist, board)

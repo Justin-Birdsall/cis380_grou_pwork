@@ -2,7 +2,7 @@
 This is the "meat of the program". This file is essentially a library of functions to call for each game turn based on the hand and the tiles that are in play. There may be some parts in this that are a little reductive like draw(). Drawing the tiles at the beginning of the game is slightly different than just playing and it is just makes more sense for my brain to create a drawing function separate from 
 """
 import random
-from initialization_game import players, board
+from initialization_game import Player, Board
 #in the game turn file send the result of the seed % mod 
 
 def check_new_potential_sets(number, players, board):
@@ -78,23 +78,56 @@ def draw_tile(player_list, board):
     return(player_list,board)
 
 def initial_30_flag(player_list, board):
-    playernum = [board.turn%4]
-    if player_list[playernum].sum_for_30 >=30:
+    #playernum = board.turn%4
+    playernum = 1
+    if player_list[playernum].sum_for_30 <= 3000:
     #check the bottom right hand corner
-        if bool(player_list[playernum].playable_run):
-            for i in range(4):
-                for j in range(len(player_list[playernum].playable_run[i])):
-                    if player_list[playernum].playable_run[i][j] in player_list[playernum].playable_set[i]:
-                        for k in range(len(player_list[playernum].playable_run[i])):
-                            sum1 += player_list[playernum].playable_run[i][k]
-                        for k in range(len(player_list[playernum].playable_set[i])):
-                            sum2 += player_list[playernum].playable_set[i][k]
-                        if sum1 >= sum2:
-                            choose run
-                        else:
-                            set
+        #if bool(player_list[playernum].playable_run):
+        sum1 = 0
+        sum2 = 0
+        for i in range(4):
+            for j in range(len(player_list[playernum].playable_run[i])):
+                if len(player_list[playernum].playable_run[i]) <=0:
+                    break 
+                print(player_list[playernum].playable_run[i][j])
+                print()
+                print(player_list[playernum].playable_set[i])
+                if player_list[playernum].playable_run[i][j] is None:
+                    if player_list[playernum].playable_set[i] is None:
+                        break
+                    else:
+                        print("choose set")
+                else:
+                    if player_list[playernum].playable_set[i] is None:
+                        print("choose run")
+                    else:
+                        print("choose run or set")
+                if player_list[playernum].playable_run[i][j] in player_list[playernum].playable_set[i]:
+                    print("in both")
+                    for k in range(len(player_list[playernum].playable_run[i])):
+                        sum1 += player_list[playernum].playable_run[i][k]
+                    for k in range(len(player_list[playernum].playable_set[i])):
+                        sum2 += player_list[playernum].playable_set[i][k]
+                    if sum1 >= sum2:
+                        if sum1 >= 30:
+                            #choose run
+                            print("choose run")
+                        print("choose run<30")
+                        break #(evaluated conflict, choose run)
+                    else:
+                        if sum2 >= 30:
+                            #choose set
+                            print("choose set")
+                        print("choose set<30")
+                        break #(evaluated conflict, choose set)
+                else:
+                    print("not in set choose run")
+                #TODO: need inverse to start with set
+                #TODO: add to set of groups to choose and put on table
+                
                             
                 
-    
+        
         player_list[playernum].played_30 = True
+    print("test")
     return(player_list)
