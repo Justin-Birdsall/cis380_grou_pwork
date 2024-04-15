@@ -36,6 +36,8 @@ class Player:
         self.hand = [[0] * 13+1 for _ in range(4+1)]
         self.run_potential = [[0] * 13 for _ in range(4)]
         self.set_potential = {i: [] for i in range(4)}
+        self.playable_set = {i: [] for i in range(13)}
+        self.playable_set = {i: [] for i in range(4)}
         self.played_30 = False
         self.sum_for_30 = 0
         self.joker_in_hand = 0
@@ -48,7 +50,7 @@ def init_draw(players, board):
             number = random.randint(0, 12)
             if board.pool[color][number] > 0:
                 board.pool[color][number] -= 1
-                players[board.turn].hand[color][number] += 1
+                players[board.turn%4].hand[color][number] += 1
                 break
         board.turn += 1    
 
@@ -58,41 +60,37 @@ def check_hand_sets(players):
         for i in range(13):
             count = 0
             sum = 0
+            color_of_tiles=[]
             for j in range(4):
                 if players[playernum].hand[j][i] > 0:
                     count += 1
                     sum += players[playernum].hand[j][i]
+                    color_of_tiles.append(j)                    
                 else:
-                    players[playernum].set_potential[j]= players[playernum][j][i]
+                    players[playernum].set_potential[j]= players[playernum].hand[j][i]
             if count >= 3:
-                players[playernum].sum_for_30 += players[playernum].hand[5][i]
-            else:
+                players[playernum].playable_set[i]=[color_of_tiles]
+                players[playernum].sum_for_30 += sum
                 
-def check_hand_runs(players, board):
-    for i in range(4):
-        count = 0
-        runs = 0
-        run_buffer = []
-        for j in range(13):
-            if self.hand[i][j] > 0:
-                count += 1
-                if count == 3:
-                    runs += 1
-            else:
+def check_hand_runs(players):
+    for playernum in players:
+        for i in range(4):
+            count = 0
+            runs = 0
+            tile_nums = []
+            for j in range(13):
+                if players[playernum].hand[i][j] > 0:
+                    count += 1
+                    #append to the list for the run
+                    tile_nums.append(players[playernum].hand[i][j])
                 if count >= 3:
-                    # backtrack and add to buffer
-                    for k in range(count, 0, -1):
-                        run_buffer.append((i, j-k))
-                count = 0
-        # if there are runs up to the end, add to buffer
-        if count >= 3:
-            for k in range(count, 0, -1):
-                run_buffer.append((i, 13-k))
-        if runs > 0:
-            for pair in run_buffer:
-                self.potential_runs[pair[0]][pair[1]] += 1
-                
-                
+                    players[playernum].playable_run[j]=tile_nums
+                else:
+                    for tile in range(len(tile_nums)):
+                        players[playernum].run_potential[tile_nums[tile]][i] = 1
+                    tile_nums = []   
+                    count = 0
+                    
 board = Board(random.randint(0,99999))
 player1 = Player("player1", 0)    
 player2 = Player("player2", 1)     
