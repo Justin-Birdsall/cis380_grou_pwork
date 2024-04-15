@@ -112,23 +112,28 @@ class Player:
                     
     def no_conflicts(self):
         # if potential sets xor potential runs is empty, return True
-        xor = board_xor(self.potential_sets, self.potential_runs)
+        #xor = board_xor(self.potential_sets, self.potential_runs)
+
+        # if potential sets and potential runs is empty, return True
+        and_potentials = board_and(self.potential_sets, self.potential_runs)
         for i in range(4):
             for j in range(13):
-                if xor[i][j] > 0:
+                if and_potentials[i][j] > 0:
                     return False
         return True
     
     def play_all_potentials(self, board):
         # play all of potential set and potential runs
-        and_potentials = board_and(self.potential_sets, self.potential_runs)
+        #and_potentials = board_and(self.potential_sets, self.potential_runs)
+
+        xor = board_xor(self.potential_sets, self.potential_runs)
         for i in range(4):
             for j in range(13):
-                if and_potentials[i][j] > 0:
-                    board.table[i][j] += and_potentials[i][j]
+                if xor[i][j] > 0:
+                    board.table[i][j] += xor[i][j]
                     self.potential_sets[i][j] = 0
                     self.potential_runs[i][j] = 0
-                    self.hand[i][j] -= and_potentials[i][j]
+                    self.hand[i][j] -= xor[i][j]
     
     def play_all_sets(self, board):
         for i in range(4):
@@ -238,6 +243,26 @@ if __name__ == "__main__":
     print("Player 1 Potential Runs")
     for i in range(4):
         print(player_1.potential_runs[i])
+    
+    # CASE 1: no conflicts
+    if player_1.no_conflicts():
+        player_1.play_all_potentials(game)
+        print()
+        print("Player 1 Hand")
+        for i in range(4):
+            print(player_1.hand[i])
+        print("Player 1 potential sets")
+        for i in range(4):
+            print(player_1.potential_sets[i])
+        print("Player 1 potential runs")
+        for i in range(4):
+            print(player_1.potential_runs[i])
+        print("Table")
+        for i in range(4):
+            print(game.table[i])
+    else:
+        #CASE 2: conflicts (cut off part of one set or run)
+        #CASE 3: conflicts (recursion to see which plays more tiles)
         
     """
     print()
@@ -281,6 +306,7 @@ if __name__ == "__main__":
     print()
     """
     
+    """
     print("Player 1 potential sets xor potential runs")
     ex1 = board_xor(player_1.potential_sets, player_1.potential_runs)
     #print(player_1.board_xor(player_1.potential_sets, player_1.potential_runs))
@@ -293,6 +319,7 @@ if __name__ == "__main__":
     #print(player_1.board_and(player_1.potential_sets, player_1.potential_runs))
     for i in range(4):
         print(ex2[i])
+    """
     """
     print("Player 1 (potential sets xor potential runs) xor (potential sets and potential runs)")
     ex3 = player_1.board_xor(player_1.board_xor(player_1.potential_sets, player_1.potential_runs), player_1.board_and(player_1.potential_sets, player_1.potential_runs))
