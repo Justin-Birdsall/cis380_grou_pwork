@@ -13,13 +13,14 @@ int tiles[NUM_PLAYERS][TILES_PER_PLAYER];
 // Function to initialize the tile pool
 void initializeTilePool() {
     // Seed the random number generator
-    srand(time(0));
+    int seed = time(0);
+    srand(seed);
     // Initialize an array to represent the tile pool
     int tilePool[NUM_COLORS][MAX_NUMBER + 1];
     // Initialize the tile pool with the correct number of each tile
     for (int color = 0; color < NUM_COLORS; color++) {
         for (int number = 1; number <= MAX_NUMBER; number++) {
-            tilePool[color][number] = 2; // Each tile appears twice in Rummikub 
+            tilePool[color][number] = 2; // Each tile appears twice in Rummikub so set the index for color and number to 2
             }
     }
     // Randomly draw tiles for each player
@@ -46,6 +47,7 @@ int main() {
     initializeTilePool();
 
     // Print out the tiles for each player
+    // for testing purposes VVV
     for (int player = 0; player < NUM_PLAYERS; player++) {
         std::cout << "Player " << (player + 1) << " tiles:";
         for (int tileIndex = 0; tileIndex < TILES_PER_PLAYER; tileIndex++) {
