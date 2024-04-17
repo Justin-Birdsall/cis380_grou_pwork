@@ -1,0 +1,338 @@
+168 26
+a b c d e f g h i j k l m n o p q r s t u v w x y z
+1
+a
+1
+b
+1
+c
+1
+d
+1
+e
+1
+f
+1
+g
+1
+h
+1
+i
+1
+j
+1
+k
+1
+l
+1
+m
+1
+n
+1
+o
+1
+p
+1
+q
+1
+r
+1
+s
+1
+t
+1
+u
+1
+v
+1
+w
+1
+x
+1
+y
+1
+z
+2
+a b
+2
+c d
+2
+e f
+2
+g h
+2
+i j
+2
+k l
+2
+m n
+2
+o p
+2
+q r
+2
+s t
+2
+u v
+2
+w x
+2
+y z
+3
+a b c
+3
+d e f
+3
+g h i
+3
+j k l
+3
+m n o
+3
+p q r
+3
+s t u
+3
+v w x
+3
+y z a
+3
+b c d
+3
+e f g
+3
+h i j
+3
+k l m
+3
+n o p
+3
+q r s
+3
+t u v
+3
+w x y
+3
+z a b
+4
+a b c d
+4
+e f g h
+4
+i j k l
+4
+m n o p
+4
+q r s t
+4
+u v w x
+4
+y z a b
+4
+c d e f
+4
+g h i j
+4
+k l m n
+4
+o p q r
+4
+s t u v
+4
+w x y z
+5
+a b c d e
+5
+f g h i j
+5
+k l m n o
+5
+p q r s t
+5
+u v w x y
+5
+z a b c d
+5
+e f g h i
+5
+j k l m n
+5
+o p q r s
+5
+t u v w x
+5
+y z a b c
+6
+a b c d e f
+6
+g h i j k l
+6
+m n o p q r
+6
+s t u v w x
+6
+y z a b c d
+6
+e f g h i j
+6
+k l m n o p
+6
+q r s t u v
+6
+w x y z a b
+6
+c d e f g h
+6
+i j k l m n
+6
+o p q r s t
+6
+u v w x y z
+7
+a b c d e f g
+7
+h i j k l m n
+7
+o p q r s t u
+7
+v w x y z a b
+7
+c d e f g h i
+7
+j k l m n o p
+7
+q r s t u v w
+7
+x y z a b c d
+7
+e f g h i j k
+7
+l m n o p q r
+7
+s t u v w x y
+7
+z a b c d e f
+8
+a b c d e f g h
+8
+i j k l m n o p
+8
+q r s t u v w x
+8
+y z a b c d e f
+8
+g h i j k l m n
+8
+o p q r s t u v
+8
+w x y z a b c d
+8
+e f g h i j k l
+8
+m n o p q r s t
+8
+u v w x y z a b
+9
+a b c d e f g h i
+9
+j k l m n o p q r
+9
+s t u v w x y z a
+9
+b c d e f g h i j
+9
+k l m n o p q r s
+9
+t u v w x y z a b
+9
+c d e f g h i j k
+9
+l m n o p q r s t
+9
+u v w x y z a b c
+9
+d e f g h i j k l
+9
+m n o p q r s t u
+9
+v w x y z a b c d
+10
+a b c d e f g h i j
+10
+k l m n o p q r s t
+10
+u v w x y z a b c d
+10
+e f g h i j k l m n
+10
+o p q r s t u v w x
+10
+y z a b c d e f g h
+10
+i j k l m n o p q r
+10
+s t u v w x y z a b
+10
+c d e f g h i j k l
+10
+m n o p q r s t u v
+10
+w x y z a b c d e f
+11
+a b c d e f g h i j k
+11
+l m n o p q r s t u v
+11
+w x y z a b c d e f g
+11
+h i j k l m n o p q r
+11
+s t u v w x y z a b c
+11
+d e f g h i j k l m n
+11
+o p q r s t u v w x y
+11
+z a b c d e f g h i j
+11
+k l m n o p q r s t u
+11
+v w x y z a b c d e f
+11
+a b c d e f g h i j k
+11
+l m n o p q r s t u v
+11
+w x y z a b c d e f g
+11
+h i j k l m n o p q r
+11
+s t u v w x y z a b c
+11
+d e f g h i j k l m n
+11
+o p q r s t u v w x y
+11
+z a b c d e f g h i j
+11
+k l m n o p q r s t u
+11
+v w x y z a b c d e f
+11
+a b c d e f g h i j k
+11
+l m n o p q r s t u v
+11
+w x y z a b c d e f g
+11
+h i j k l m n o p q r
+11
+s t u v w x y z a b c
+11
+d e f g h i j k l m n
+11
+o p q r s t u v w x y
+11
+z a b c d e f g h i j
+11
+k l m n o p q r s t u

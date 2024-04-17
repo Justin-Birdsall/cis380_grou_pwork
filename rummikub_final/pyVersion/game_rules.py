@@ -90,8 +90,10 @@ def initial_30_flag(player_list, board):
                         for k in range(len(player_list[playernum].playable_set[i])):
                             sum2 += player_list[playernum].playable_set[i][k]
                         if sum1 >= sum2:
-                            choose run
+                            if sum1 >= 30:
+                                choose run
                         else:
+                            if sum2 >= 30:
                             set
                             
                 
