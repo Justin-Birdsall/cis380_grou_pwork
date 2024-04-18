@@ -1,9 +1,5 @@
 # Authors: Richard Roy & Justin Birdsall
 import time
-import sys
-#print(sys.getrecursionlimit())
-sys.setrecursionlimit(1500)
-#print(sys.getrecursionlimit())
 
 def remove_subset(agents):
     # remove agents that are a subset of another agent
@@ -37,21 +33,18 @@ def branching(best_solution, num_required_skills, group_skills, group_size, grou
     # recursive case
     # include agent
     # use logic here later
-    #include_group_skills = group_skills | agents_list[0]
-    include_group_skills = group_skills
-    #exclude_group_skills = group_skills | agents_list[0]
+    include_group_skills = group_skills | agents_list[0]
 
     # don't include agents that don't contribute to the required skills
     # don't think this will be triggered because of the remove_subset function
-    #if include_group_skills == group_skills:
-    #    return branching(best_solution, num_required_skills, group_skills, group_size, group, agents_list[1:], agents_dict, num_agents, starttime)
+    if include_group_skills == group_skills:
+        return branching(best_solution, num_required_skills, group_skills, group_size, group, agents_list[1:], agents_dict, num_agents, starttime)
     # include agent, exclude later
     new_group = group.copy()
     new_group.append(list(agents_dict.values()).index(agents_list[0]))
-    #if bin(include_group_skills).count('1') >= num_required_skills:
-    #    best_solution = group_size + 1, new_group
-    #include = branching(best_solution, num_required_skills, include_group_skills, group_size + 1, new_group, agents_list[1:], agents_dict, num_agents, starttime)
-    include = branching(best_solution, num_required_skills, include_group_skills, group_size + 1, new_group, agents_list)
+    if bin(include_group_skills).count('1') >= num_required_skills:
+        best_solution = group_size + 1, new_group
+    include = branching(best_solution, num_required_skills, include_group_skills, group_size + 1, new_group, agents_list[1:], agents_dict, num_agents, starttime)
     possible_coverage = group_skills
     for agent in agents_list[1:]:
         possible_coverage |= agent
@@ -115,10 +108,7 @@ if __name__ == "__main__":
         all_optimized_agents.append(list(agents_dict.keys())[list(agents_dict.values()).index(agent)])
     best_solution = (len(agents_binary), all_optimized_agents)
 
-    # testing starting with full group and taking away agents
-    group = [i for i in range(num_candidate_agents)]
-    ret = branching(best_solution, num_required_skills, 0, len(group), group, agents_binary, agents_dict, num_candidate_agents, start_time)
-    #ret = branching(best_solution, num_required_skills, 0, 0, group, agents_binary, agents_dict, num_candidate_agents, start_time)
+    ret = branching(best_solution, num_required_skills, 0, 0, group, agents_binary, agents_dict, num_candidate_agents, start_time)
     ret1 = ret[1]
     ret1.sort()
     print(ret[0])
