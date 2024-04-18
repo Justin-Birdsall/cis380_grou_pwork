@@ -71,6 +71,12 @@ if __name__ == "__main__":
             possible_coverage |= 1 << required_skills.index(skill)
         #agent_binary |= agent_binary & required_skills_binary
         agents_binary.append(agent_binary)
+
+    #might do this while getting agents
+    # exclude agents that are a subset of other agents
+    temp_agents = agents_binary
+    temp_agents.sort(reverse=True)
+
     
     print(branching(required_skills_binary, 0, 0, agents_binary, num_candidate_agents))
 
