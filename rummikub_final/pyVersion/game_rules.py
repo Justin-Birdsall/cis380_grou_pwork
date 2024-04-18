@@ -125,6 +125,20 @@ def initial_30_flag(player_list, board):
                 #TODO: need inverse to start with set
                 #TODO: add to set of groups to choose and put on table
                 
+        if bool(player_list[playernum].playable_run):
+            for i in range(4):
+                for j in range(len(player_list[playernum].playable_run[i])):
+                    if player_list[playernum].playable_run[i][j] in player_list[playernum].playable_set[i]:
+                        for k in range(len(player_list[playernum].playable_run[i])):
+                            sum1 += player_list[playernum].playable_run[i][k]
+                        for k in range(len(player_list[playernum].playable_set[i])):
+                            sum2 += player_list[playernum].playable_set[i][k]
+                        if sum1 >= sum2:
+                            if sum1 >= 30:
+                                choose run
+                        else:
+                            if sum2 >= 30:
+                            set
                             
                 
         
