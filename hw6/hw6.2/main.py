@@ -9,7 +9,7 @@ sys.setrecursionlimit(1500)
 def remove_subset_iterative(agents, starttime):
     # order most skills to least skills, so we can make more progress in 
     # branching in less time
-    agents.sort(reverse=True)
+    #agents.sort(reverse=True)
     stack = []
     stack.append(agents)
     #remove agents that are a subset of another agent
@@ -33,20 +33,26 @@ def remove_subset_iterative(agents, starttime):
                     #reak_flag = False
                     break
                 # don't compare agent to itself
-                if agents.index(agent) == agents.index(other_agent):
+                if agent == other_agent:
                     break
+                #if agents.index(agent) == agents.index(other_agent):
+                #    break
                 # other_agent is a subset of agent, remove other_agent
-                if agent | other_agent == agent:
-                    agents.remove(other_agent)
+                if agents[agent] | agents[other_agent] == agents[agent]:
+                    #agents.remove(other_agent)
+                    del agents[other_agent]
                     stack.append(agents)
                     break_flag = True
                     break
-                if agent | other_agent == other_agent:
-                    agents.remove(agent)
+                
+                if agents[agent] | agents[other_agent] == agents[other_agent]:
+                    #agents.remove(agent)
+                    del agents[agent]
                     stack.append(agents)
                     break_flag = True
                     break
-    return agents
+    #return agents.values()
+    return [agent for agent in agents.values()]
 
 def remove_subset(agents):
 
@@ -388,7 +394,8 @@ if __name__ == "__main__":
         
     
     # exclude agents that are a subset of other agents
-    agents_binary = remove_subset_iterative(agents_binary, start_time)
+    #agents_binary = remove_subset_iterative(agents_binary, start_time)
+    agents_binary = remove_subset_iterative(agents_dict, start_time)
     best_solution = (original_index, all_optimized_agents)
     group = []
     ret = branching_iterative(best_solution, num_required_skills, 0, group, 0, agents_binary, agents_dict, start_time)
