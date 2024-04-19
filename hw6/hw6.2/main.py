@@ -52,41 +52,16 @@ def remove_subset_iterative(agents, starttime):
                     break_flag = True
                     break
     #return agents.values()
-    return [agent for agent in agents.values()]
+    #return [agent for agent in agents.values()]
+    return ([agent for agent in agents.values()], agents)
 
-def remove_subset(agents):
 
-    # remove agents that are a subset of another agent
-
-    agents.sort(reverse=True)
-
-    for agent in agents:
-
-        for other_agent in agents:
-
-            if agents.index(agent) == agents.index(other_agent):
-
-                break
-
-            if agent | other_agent == other_agent:
-
-                agents.remove(agent)
-
-                return remove_subset(agents)
-
-            elif agent | other_agent == agent:    
-
-                agents.remove(other_agent)
-
-                return remove_subset(agents)
-
-    return agents
 
                 
 
             
 
-def branching_iterative(best_solution, num_required_skills, group_skills, group, agent_index, agents_list, agents_dict, starttime):
+def branching_iterative(best_solution, num_required_skills, group_skills, group, agent_index, agents_list, agents_dict, agents_dict_keys, starttime):
     stack = []
     # add initial state to stack
     stack.append((group_skills, group, agent_index))
@@ -112,6 +87,7 @@ def branching_iterative(best_solution, num_required_skills, group_skills, group,
         
         # include agent
         include_group_skills = group_skills | agents_list[agent_index]
+        #include_group_skills = group_skills | agents_list
         # don't include agents that don't contribute to the required skills
         if include_group_skills == group_skills:
             # continue to next state?
@@ -120,7 +96,8 @@ def branching_iterative(best_solution, num_required_skills, group_skills, group,
             continue
         # prepare new group for include
         include_group = group.copy()
-        include_group.append(list(agents_dict.values()).index(agents_list[agent_index]))
+        #include_group.append(list(agents_dict.values()).index(agents_list[agent_index]))
+        include_group.append(agents_dict_keys[agent_index])
         # update best solution if new group is better
         if bin(include_group_skills).count('1') >= num_required_skills:
             if len(include_group) < best_solution[0]:
@@ -395,10 +372,11 @@ if __name__ == "__main__":
     
     # exclude agents that are a subset of other agents
     #agents_binary = remove_subset_iterative(agents_binary, start_time)
-    agents_binary = remove_subset_iterative(agents_dict, start_time)
+    agents_binary, agents_dict = remove_subset_iterative(agents_dict, start_time)
     best_solution = (original_index, all_optimized_agents)
+    agents_dict_keys = list(agents_dict.keys())
     group = []
-    ret = branching_iterative(best_solution, num_required_skills, 0, group, 0, agents_binary, agents_dict, start_time)
+    ret = branching_iterative(best_solution, num_required_skills, 0, group, 0, agents_binary, agents_dict, agents_dict_keys, start_time)
     ret1 = ret[1]
     ret1.sort()
     print(ret[0])
